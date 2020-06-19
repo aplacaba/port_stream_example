@@ -1,2 +1,5 @@
 * TODO Port Stream using OpenCV and Elixir
-- [ ] 
+- [ ] Setup port genserver for communication with python
+- [ ] Setup channels to receive images from backend
+- [ ] Setup python code for image collection (opencv)
+- [ ] Setup python handler for elixir messages
