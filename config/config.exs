@@ -7,16 +7,13 @@
 # General application configuration
 use Mix.Config
 
-config :port_stream_example,
-  ecto_repos: [PortStreamExample.Repo]
-
 # Configures the endpoint
 config :port_stream_example, PortStreamExampleWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "vsiSOVbl1WYyEhH4g99FtOXTa5V2E6B7iUMtGs//iaXLUC3vEZFZtmaWfCQ0Y/hu",
+  secret_key_base: "QIQCuHubl7aG27PoGK9wK+/pwemf2XnQ5Tx2eJhVsjKVBKx43hCUl4jIqkVbSa8o",
   render_errors: [view: PortStreamExampleWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: PortStreamExample.PubSub,
-  live_view: [signing_salt: "wEyj89Wq"]
+  live_view: [signing_salt: "DgczPYYK"]
 
 # Configures Elixir's Logger
 config :logger, :console,

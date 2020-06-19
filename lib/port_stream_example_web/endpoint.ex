@@ -7,7 +7,7 @@ defmodule PortStreamExampleWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_port_stream_example_key",
-    signing_salt: "5XFatg64"
+    signing_salt: "3B11D5Bw"
   ]
 
   socket "/socket", PortStreamExampleWeb.UserSocket,
@@ -32,7 +32,6 @@ defmodule PortStreamExampleWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :port_stream_example
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,

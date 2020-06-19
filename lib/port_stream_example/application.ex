@@ -7,8 +7,6 @@ defmodule PortStreamExample.Application do
 
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      PortStreamExample.Repo,
       # Start the Telemetry supervisor
       PortStreamExampleWeb.Telemetry,
       # Start the PubSub system

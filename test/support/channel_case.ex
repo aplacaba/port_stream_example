@@ -28,13 +28,7 @@ defmodule PortStreamExampleWeb.ChannelCase do
     end
   end
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(PortStreamExample.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(PortStreamExample.Repo, {:shared, self()})
-    end
-
+  setup _tags do
     :ok
   end
 end
