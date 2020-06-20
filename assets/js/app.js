@@ -13,3 +13,30 @@ import "../css/app.scss"
 //     import socket from "./socket"
 //
 import "phoenix_html"
+import socket from './socket'
+
+
+let channel = socket.channel("image:stream", {})
+channel.join()
+                    .receive("ok", resp => { console.log("Joined successfully", resp) })
+                    .receive("error", resp => { console.log("Unable to join", resp) })
+
+
+channel.on("image_data", (payload) => {
+  const img = document.querySelector('#b64_image_data')
+  img.src = `data:image/jpg;base64, ${payload.data}`
+})
+
+
+window.onload = function () {
+  const startStreamBtn = document.querySelector('#start_stream')
+  const stopStreamBtn = document.querySelector('#stop_stream')
+
+  startStreamBtn.addEventListener('click', () => {
+    channel.push('start_stream')
+  })
+
+  stopStreamBtn.addEventListener('click', () => {
+    channel.push('stop_stream')
+  })
+}

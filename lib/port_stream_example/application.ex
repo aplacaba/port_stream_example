@@ -12,7 +12,8 @@ defmodule PortStreamExample.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: PortStreamExample.PubSub},
       # Start the Endpoint (http/https)
-      PortStreamExampleWeb.Endpoint
+      PortStreamExampleWeb.Endpoint,
+      {PortStreamExample.Python, name: Px},
       # Start a worker by calling: PortStreamExample.Worker.start_link(arg)
       # {PortStreamExample.Worker, arg}
     ]

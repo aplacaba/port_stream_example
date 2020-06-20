@@ -2,7 +2,7 @@ defmodule PortStreamExampleWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", PortStreamExampleWeb.RoomChannel
+  channel "image:*", PortStreamExampleWeb.ImageChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
