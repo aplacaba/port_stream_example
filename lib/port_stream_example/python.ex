@@ -18,12 +18,12 @@ defmodule PortStreamExample.Python do
   end
 
   def handle_cast(:collect, state) do
-    payload = Jason.encode!(%{"command" => "collect"})
+    payload = Jason.encode!(%{"command" => "start"})
     Port.command(state.port, payload)
     {:noreply, state}
   end
   def handle_cast(:stop_collection, state) do
-    Port.close(state.port)
+    Port.command(state.port, Jason.encode!(%{"command" => "stop"}))
     {:noreply, %{port: open_port()}}
   end
 

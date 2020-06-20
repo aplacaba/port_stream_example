@@ -4,6 +4,7 @@ import json
 import erlang
 import base64
 from struct import unpack, pack
+import threading
 
 class ImageCollector:
     def __init__(self, output):
@@ -21,10 +22,12 @@ class ImageCollector:
             jpg = base64.b64encode(buffer).decode()
             self._publish(jpg)
 
+        self.cap.release()
+        self.cap = None
+        return
+
     def stop(self):
         self.should_collect = False
-        if self.cap:
-            self.cap.release()
 
     def _publish(self, image):
         data = json.dumps({'data': image})
@@ -38,10 +41,12 @@ class ImageCollector:
 def parse_message(input):
     header = input.read(4)
     if len(header) != 4:
+        print("Not allowed")
         return None
 
     (length,) = unpack('!I', header)
     payload = input.read(length).decode()
+    print(payload)
 
     if len(payload) != length:
         return None
@@ -53,21 +58,27 @@ def run():
     input, output = os.fdopen(3, "rb"), os.fdopen(4, "wb")
     image_collector = ImageCollector(output)
 
+    thread_started = False
+    thread = threading.Thread(target=image_collector.start, args=())
+    thread.daemon = True
+
     while True:
         msg = parse_message(input)
         if msg is None: break
 
-        if msg['command'] == 'collect':
-            image_collector.start()
+        if msg['command'] == 'start':
+            if thread_started:
+                image_collector.start()
+            else:
+                thread_started = True
+                thread.start()
+        elif msg['command'] == 'stop':
+            image_collector.stop()
+        else:
+            print("Invalid command")
 
-
+            
 if __name__ == '__main__':
     run()
-    # input, output = os.fdopen(3, "rb"), os.fdopen(4, "wb")
-    # image_collector = ImageCollector(output)
-    
-    # for message in message_parser(input):
-    #     print(message)
-    #     handle_message(message, image_collector)
-
+            
     

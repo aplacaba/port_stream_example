@@ -23,6 +23,7 @@ channel.join()
 
 
 channel.on("image_data", (payload) => {
+  console.log('Image received')
   const img = document.querySelector('#b64_image_data')
   img.src = `data:image/jpg;base64, ${payload.data}`
 })
