@@ -5,6 +5,7 @@ import erlang
 import base64
 from struct import unpack, pack
 import threading
+from basler_img_collector import BaslerImgCollector
 
 class ImageCollector:
     def __init__(self, output):
@@ -57,9 +58,10 @@ def parse_message(input):
 def run():
     input, output = os.fdopen(3, "rb"), os.fdopen(4, "wb")
     image_collector = ImageCollector(output)
+    basler = BaslerImgCollector(output)
 
     thread_started = False
-    thread = threading.Thread(target=image_collector.start, args=())
+    thread = threading.Thread(target=basler.start, args=())
     thread.daemon = True
 
     while True:
@@ -68,12 +70,12 @@ def run():
 
         if msg['command'] == 'start':
             if thread_started:
-                image_collector.start()
+                basler.start()
             else:
                 thread_started = True
                 thread.start()
         elif msg['command'] == 'stop':
-            image_collector.stop()
+            basler.stop()
         else:
             print("Invalid command")
 
