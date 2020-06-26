@@ -60,19 +60,17 @@ def run():
     image_collector = ImageCollector(output)
     basler = BaslerImgCollector(output)
 
-    thread_started = False
     thread = threading.Thread(target=basler.start, args=())
     thread.daemon = True
 
     while True:
         msg = parse_message(input)
-        if msg is None: break
+        if msg is None:
+            basler.stop()
+            break
 
         if msg['command'] == 'start':
-            if thread_started:
-                basler.start()
-            else:
-                thread_started = True
+            if not basler.is_grabbing:
                 thread.start()
         elif msg['command'] == 'stop':
             basler.stop()
